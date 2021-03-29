@@ -284,12 +284,19 @@ int main(int argc,char** argv)
 
  //Programmer ici
  float u = 4;
- for(float x = 0.2; x <= 0.6; x += 0.2) {
-   //Calculer en float puis en double?
+ for(float x0 = 0.2; x0 <= 0.7; x0 += 0.2) {
+    double x = x0;
 
-   for(int i = 0; i < 10000000) {
+    //Calculer en float puis en double?
+    double previousRoots = 0;
 
-   }
+    for(int i = 0; i < 10000000; i++) {
+      x = 2 / (1.0 / i * previousRoots);
+
+      previousRoots += sqrtf(x);
+    }
+
+    printf("[%0.2f:>%0.10f]\n", x0, x);
  }
  
 
