@@ -1,7 +1,7 @@
 //------------------------------------------------------
 // module  : Tp-IFT2425-I.c
 // author  : Adrien Marcotte - 20134018 - adrienmarcotte@gmail.com
-//           Julien Lanctôt -  - 
+//           Julien Lanctôt -  - 20140970 - julien.lanctot@umontreal.ca
 // date    : 
 // version : 1.0
 // language: C++
@@ -66,11 +66,14 @@ float numero1(int intervalles) {
 }
 
 float cascade(float* tableau, int debut, int fin);
+float kahan(float* tableau, int intervalles);
+
 float numero2a(int intervalles) {
   float* matrice = valeursFlottantes(intervalles);
 
   return cascade(matrice, 0, intervalles);
 }
+
 
 //Debut represente le dernier index du tableau, debut le premier
 float cascade(float* tableau, int debut, int fin) {
@@ -86,9 +89,27 @@ float cascade(float* tableau, int debut, int fin) {
   }
 }
 
-float numero2b() {
-  float* matrice = 
+float kahan(float* tableau, int intervalles){
+	float erreur = 0.0;
+	float somme = 0.0;
+	float temp = 0.0;
+	float y = 0.0;
+	
+	for(int i = 0;i < intervalles;i++)
+	{
+		temp = somme;
+		y = tableau[i] + erreur;
+		somme = y + temp;
+		erreur = (temp - somme) + y;
+	}
+	return somme;
 }
+
+
+float numero2b(int intervalles) {
+	float* matrice = valeursFlottantes(intervalles);
+	return kahan(matrice, intervalles);
+}	
 
 float error(float v1, float v2) {
   return fabsf(v2 - v1);
@@ -353,7 +374,7 @@ int main(int argc,char** argv)
  float val2 = numero2a(NBINTERV);
  float err2 = fabsf(PI - val2);
  
- float val3 = 0;
+ float val3 = numero2b(NBINTERV);
  float err3 = fabsf(PI - val3);
  
  printf("[1>Given_Order:]  Pi=%0.10f  Er=%0.10f  LogEr=%0.2f\n", val1, err1, log10f(err1));
