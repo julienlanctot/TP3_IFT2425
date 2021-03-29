@@ -1,7 +1,7 @@
 //------------------------------------------------------
 // module  : Tp-IFT2425-I.c
 // author  : Adrien Marcotte - 20134018 - adrienmarcotte@gmail.com
-//           Julien Lanctôt -  - 
+//           Julien Lanctôt -  - 20140970 - julien.lanctot@umontreal.ca
 // date    : 
 // version : 1.0
 // language: C++
