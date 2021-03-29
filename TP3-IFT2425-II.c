@@ -283,6 +283,22 @@ int main(int argc,char** argv)
  float* VctPts=fmatrix_allocate_1d(NbInt+1);
 
  //Programmer ici
+ for(float u = 2.5; u < 4; u += 0.0001) {
+  float x = 0.5;
+
+  for(int i = 0; i < 10000 + 10000; i++) {
+    x = u * x * (1 - x);
+
+    if(i > 10000) {
+      int xi = (int) ((1 - x) * length);
+      int ui = (int) ((u - 2.5) / 1.5 * width);
+
+      //fprintf(stdout, "%d + %d\n", xi, ui);
+
+      Graph2D[xi][ui] = 0;
+    }
+  }
+ }
  
  
 

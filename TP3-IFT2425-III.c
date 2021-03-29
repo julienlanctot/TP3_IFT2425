@@ -283,7 +283,14 @@ int main(int argc,char** argv)
  float* VctPts=fmatrix_allocate_1d(NbInt+1);
 
  //Programmer ici
- 
+ float u = 4;
+ for(float x = 0.2; x <= 0.6; x += 0.2) {
+   //Calculer en float puis en double?
+
+   for(int i = 0; i < 10000000) {
+
+   }
+ }
  
 
  //End
