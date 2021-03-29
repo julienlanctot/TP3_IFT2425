@@ -32,6 +32,68 @@ Window	  root;
 Visual*	  visual;
 GC	  gc;
 
+// FONCTIONS UTILITAIRES
+float f(float x) {
+  return 4 * sqrtf(1 - (x * x));
+}
+
+float* valeursFlottantes(int intervalles) {
+  float* matrice = (float*) malloc((intervalles + 1) * sizeof(float));
+
+  float fi_intervalle = (1.0) / (intervalles);
+
+  for(int i = 0; i < intervalles + 1; i++) {
+    matrice[i] = fi_intervalle * f(i * fi_intervalle);
+    
+    if(i == 0 || i == intervalles) {
+      matrice[i] /= 2;
+    }
+  }
+
+  return matrice;
+}
+
+float numero1(int intervalles) {
+  float sommeNaive = 0;
+
+  float* matrice = valeursFlottantes(intervalles);
+
+  for(int i = 0; i < intervalles + 1; i++) {
+    sommeNaive += matrice[i];
+  }
+
+  return sommeNaive;
+}
+
+float cascade(float* tableau, int debut, int fin);
+float numero2a(int intervalles) {
+  float* matrice = valeursFlottantes(intervalles);
+
+  return cascade(matrice, 0, intervalles);
+}
+
+//Debut represente le dernier index du tableau, debut le premier
+float cascade(float* tableau, int debut, int fin) {
+  if(abs(fin - debut) <= 1) {
+    if(fin == debut)
+      return tableau[debut];
+    else
+      return tableau[debut] + tableau[fin];
+  } else {
+    int millieu = debut + (fin - debut) / 2;
+
+    return cascade(tableau, debut, millieu) + cascade(tableau, millieu + 1, fin);
+  }
+}
+
+float numero2b() {
+  float* matrice = 
+}
+
+float error(float v1, float v2) {
+  return fabsf(v2 - v1);
+}
+
 /************************************************************************/
 /* OPEN_DISPLAY()							*/
 /************************************************************************/
@@ -260,7 +322,7 @@ int main(int argc,char** argv)
 
  length=width=4096;
  float** Graph2D=fmatrix_allocate_2d(length,width); 
- flag_graph=1;
+ flag_graph=0;
  zoom=-16;
 
  //Affichage Axes
@@ -283,10 +345,20 @@ int main(int argc,char** argv)
  float* VctPts=fmatrix_allocate_1d(NbInt+1);
 
  //Programmer ici
- 
- 
+ float val1 = numero1(NBINTERV);
+ float err1 = fabsf(PI - val1);
 
- //End
+ fprintf(stdout, "%0.10f\n", error(PI, val1));
+
+ float val2 = numero2a(NBINTERV);
+ float err2 = fabsf(PI - val2);
+ 
+ float val3 = 0;
+ float err3 = fabsf(PI - val3);
+ 
+ printf("[1>Given_Order:]  Pi=%0.10f  Er=%0.10f  LogEr=%0.2f\n", val1, err1, log10f(err1));
+ printf("[2>PairwiseSum:]  Pi=%0.10f  Er=%0.10f  LogEr=%0.2f\n", val2, err2, log10f(err2));
+ printf("[3>KahanSummat:]  Pi=%0.10f  Er=%0.10f  LogEr=%0.2f\n", val3, err3, log10f(err3));
    
 
 //--------------------------------------------------------------------------------
@@ -326,10 +398,11 @@ int main(int argc,char** argv)
          }
    if (!flag_graph) break;
    }
- } 
-       
- //retour sans probleme 
- printf("\n Fini... \n\n\n");
+  
+    //retour sans probleme 
+    printf("\n Fini... \n\n\n");
+ }
+
  return 0;
  }
  
