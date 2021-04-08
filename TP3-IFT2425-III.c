@@ -260,7 +260,7 @@ int main(int argc,char** argv)
 
  length=width=4096;
  float** Graph2D=fmatrix_allocate_2d(length,width); 
- flag_graph=1;
+ flag_graph=0;
  zoom=-16;
 
  //Affichage Axes
@@ -289,12 +289,17 @@ int main(int argc,char** argv)
 
     //Calculer en float puis en double?
     double previousRoots = 0;
+    
+    x = u * x * (1 - x);
 
-    for(int i = 0; i < 10000000; i++) {
-      x = 2 / (1.0 / i * previousRoots);
+    int N = 10000000;
+    for(int i = 0; i < N; i++) {
+      x = u * x * (1 - x);
 
-      previousRoots += sqrtf(x);
+      previousRoots += sqrt(x);
     }
+
+    x = 2 / ((1.0 / N) * previousRoots);
 
     printf("[%0.2f:>%0.10f]\n", x0, x);
  }
